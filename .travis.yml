@@ -22,11 +22,13 @@ script:
   - coverage run --source='.' manage.py test
 
 after_success:
+  - git clean -f
   - coveralls
 
 # Deploy the app to AWS Elastic Beanstalk
 deploy:
   provider: elasticbeanstalk
+  dpl_version: 1.10.16
   region: $AWS_REGION
   app: $EB_APP_NAME
   env: $EB_ENV_NAME
