@@ -1,0 +1,36 @@
+language: python
+python:
+  - '3.12'  # Python version
+
+# Install dependencies, including python-dotenv to load .env file
+install:
+  - pip install -r requirements.txt
+  - pip install black flake8 coverage coveralls python-dotenv
+
+# Load environment variables from the .env file
+before_script:
+  - |
+    if [ -f .env ]; then
+      export $(cat .env | xargs)
+    fi
+
+# Run formatting, linting, and test coverage
+script:
+  - black --check .
+  - flake8
+  - coverage run --source='.' manage.py test
+
+after_success:
+  - coveralls
+
+# Deploy the app to AWS Elastic Beanstalk
+deploy:
+  provider: elasticbeanstalk
+  region: $AWS_REGION
+  app: $EB_APP_NAME
+  env: $EB_ENV_NAME
+  bucket_name: elasticbeanstalk-$AWS_REGION-626635433032  # Adjust with your bucket name
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  on:
+    branch: master
