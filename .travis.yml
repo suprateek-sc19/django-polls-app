@@ -30,7 +30,7 @@ deploy:
   region: $AWS_REGION
   app: $EB_APP_NAME
   env: $EB_ENV_NAME
-  bucket_name: elasticbeanstalk-$AWS_REGION-626635433032  # Adjust with your bucket name
+  bucket_name: elasticbeanstalk-us-west-2-626635433032  
   access_key_id: $AWS_ACCESS_KEY_ID
   secret_access_key: $AWS_SECRET_ACCESS_KEY
   on:
